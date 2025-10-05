@@ -1,8 +1,8 @@
-// 
+//
 // Written INSERT-DATE-HERE
 // By INSERT-AUTHOR-HERE
 //
-// INSERT-DESCRIPTION-HERE
+// Program scans numbers into an array, then prints the minimum and maximum.
 //
 
 #include <stdio.h>
@@ -14,17 +14,15 @@
 void print_array_minmax(int length, int numbers[MAX_SIZE]);
 
 int main(void) {
-    // TODO: Create an integer array of size MAX_SIZE
-    // HINT: Do not use the user input as the length of the array!
+    // create an integer array of size MAX_SIZE
     int numbers[MAX_SIZE];
-    int n, i; // n = number of elements, i = counter
 
     printf("How many numbers: ");
-    // TODO: Fill in code that takes the quantity of numbers from the user
+    int n;  // n = number of integers
     scanf("%d", &n);
 
     printf("Please enter numbers: ");
-    // TODO: Fill in code that scans in integers from the user
+    int i;  // i = loop counter
     i = 0;
     while (i < n) {
         scanf("%d", &numbers[i]);
@@ -32,8 +30,6 @@ int main(void) {
     }
     
     print_array_minmax(n, numbers);
-    // TODO: Change this statement to match your variables and array.
-    //      Refer to the documentation below for correct usage!
 
     return 0;
 }
