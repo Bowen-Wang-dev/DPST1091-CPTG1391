@@ -24,54 +24,50 @@ int main(void) {
  
     printf("Welcome to Snake!\n");
 
-    // TODO: Complete the program
-    int ar, ac; // ar = apple row, ac = apple column
-    int sr, sc; // sr = snake row, sc = snake column
-    char d; // d = direction
-    int g; // g = game over flag
-    
+    // apple location
+    int apple_row, apple_col;
     printf("Please enter apple location: ");
-    scanf("%d %d", &ar, &ac);
-    
+    scanf("%d %d", &apple_row, &apple_col);
+    map[apple_row][apple_col] = APPLE;
+
+    // snake location
+    int snake_row, snake_col;
     printf("Please enter snake location: ");
-    scanf("%d %d", &sr, &sc);
-    
-    map[ar][ac] = APPLE;
-    map[sr][sc] = SNAKE;
-    
+    scanf("%d %d", &snake_row, &snake_col);
+    map[snake_row][snake_col] = SNAKE;
+
     print_map(map);
-    
-    g = 0;
-    while (g == 0) {
-        scanf(" %c", &d);
-        
-        // Mark current position as visited
-        map[sr][sc] = VISITED;
-        
-        // Move snake based on direction
-        if (d == 'u') {
-            sr = sr - 1;
-        } else if (d == 'd') {
-            sr = sr + 1;
-        } else if (d == 'l') {
-            sc = sc - 1;
-        } else if (d == 'r') {
-            sc = sc + 1;
+
+    // game loop
+    char direction;
+    while (snake_row != apple_row || snake_col != apple_col) {
+        scanf(" %c", &direction);
+
+        // mark current position visited
+        map[snake_row][snake_col] = VISITED;
+
+        if (direction == 'u') {
+            snake_row = snake_row - 1;
+        } else if (direction == 'd') {
+            snake_row = snake_row + 1;
+        } else if (direction == 'l') {
+            snake_col = snake_col - 1;
+        } else if (direction == 'r') {
+            snake_col = snake_col + 1;
         }
-        
-        // Check if snake reached apple
-        if (sr == ar && sc == ac) {
-            g = 1;
-        } else {
-            map[sr][sc] = SNAKE;
-        }
-        
-        if (g == 0) {
+
+        // if reached apple, mark snake and end
+        if (snake_row == apple_row && snake_col == apple_col) {
+            map[snake_row][snake_col] = SNAKE;
             print_map(map);
+            printf("Chomp!\n");
+            return 0;
         }
+
+        // otherwise move snake
+        map[snake_row][snake_col] = SNAKE;
+        print_map(map);
     }
-    
-    printf("Chomp!\n");
 
     return 0;
 }
