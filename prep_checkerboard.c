@@ -7,6 +7,7 @@
 #define PIECE_EMPTY ' '
 #define TYPE_KING 1
 #define TYPE_NORMAL 0
+
 struct board_square {
     int type;
     char piece_color;
@@ -16,52 +17,32 @@ struct board_square {
 void print_checkerboard(struct board_square board[BOARD_LENGTH][BOARD_LENGTH]);
 
 int main(void) {
-    // TODO: Declare a 2D struct board_square array representing your
-    //       checkerboard, using the given struct board_square defined above as
-    //       the array element type.
-    //       Your checkerboard array size should be 8x8; BOARD_LENGTH has been
-    //       defined above for you to accomplish this. Your checkerboard should
-    //       not be an 2D int array.
+    // Declare the checkerboard
     struct board_square board[BOARD_LENGTH][BOARD_LENGTH];
 
-    // TODO: Initialize each member variable of each struct board_square in
-    //       your checkerboard 2D array with:
-    //          1. piece_color: A value of PIECE_EMPTY (i.e. it is empty)
-    //          2. type:        A value of TYPE_NORMAL (i.e. no piece starts as king!)
-    // HINT: How do you change elements of a 2D array? What about structs?
-    int r, c; // r = row, c = column
-    
-    r = 0;
-    while (r < BOARD_LENGTH) {
-        c = 0;
-        while (c < BOARD_LENGTH) {
-            board[r][c].piece_color = PIECE_EMPTY;
-            board[r][c].type = TYPE_NORMAL;
-            c = c + 1;
+    // Initialize all squares as empty, not king
+    int row = 0;
+    while (row < BOARD_LENGTH) {
+        int col = 0;
+        while (col < BOARD_LENGTH) {
+            board[row][col].piece_color = PIECE_EMPTY;
+            board[row][col].type = TYPE_NORMAL;
+            col = col + 1;
         }
-        r = r + 1;
+        row = row + 1;
     }
 
-    // TODO: Scan in instructions from the user for filling the checkerboard
-    //       until Ctrl+D is entered
-    // HINT: How do you continuously scan for user input?
     printf("Please enter pieces:\n");
-    
-    int row, col, king; // row = row position, col = column position, king = is king
-    char color; // color = piece color
-    
-    while (scanf("%d %d %c %d", &row, &col, &color, &king) == 4) {
-        board[row][col].piece_color = color;
-        board[row][col].type = king;
-    }
-    
-    printf("\n");
 
-    // TODO: Pass your checkerboard 2D array to this function call!
-    //       Refer to how the function is implemented below for more information
-    //       on how the checkerboard is printed.
-    // HINT: You need to change REPLACE_ME to your checkerboard 2D array. How do
-    //       you pass whole arrays as function arguments?
+    // Read instructions until EOF (Ctrl+D)
+    int r, c, t;
+    char color;
+    while (scanf("%d %d %c %d", &r, &c, &color, &t) == 4) {
+        board[r][c].piece_color = color;
+        board[r][c].type = t;
+    }
+
+    // Print the checkerboard
     print_checkerboard(board);
 
     return 0;
@@ -71,27 +52,14 @@ int main(void) {
 //////////////////// DO NOT EDIT THE CODE BELOW THIS LINE! ////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-// print_checkerboard(): Prints out a checkerboard using the provided 2D array
-//                       as reference.
-//
-// Takes in:
-// - `board[BOARD_LENGTH][BOARD_LENGTH]` -- The 2D array containing a
-//                                          representation of the checkerboard
-//
-// Returns: nothing.
 void print_checkerboard(struct board_square board[BOARD_LENGTH][BOARD_LENGTH]) {
     int row_index = 0;
     while (row_index < BOARD_LENGTH) {
-
-        // NOTE: Print row dividers of checkerboard
         printf("+-----+-----+-----+-----+-----+-----+-----+-----+\n");
         printf("|");
         
         int column_index = 0;
         while (column_index < BOARD_LENGTH) {
-            
-            // NOTE: Check that all struct values contain valid input.
             assert(
                 board[row_index][column_index].piece_color == PIECE_RED ||
                 board[row_index][column_index].piece_color == PIECE_BLACK ||
@@ -103,22 +71,18 @@ void print_checkerboard(struct board_square board[BOARD_LENGTH][BOARD_LENGTH]) {
                 board[row_index][column_index].type == TYPE_NORMAL
             );
             
-            // NOTE: Print column dividers of checkerboard
             if (board[row_index][column_index].type == TYPE_KING) {
                 printf(" %c-K |", board[row_index][column_index].piece_color);
             } else {
                 printf("  %c  |", board[row_index][column_index].piece_color);
-
             }
             
-            column_index++;
+            column_index = column_index + 1;
         }
         
         printf("\n");
-        row_index++;
+        row_index = row_index + 1;
     }
-    // NOTE: Print final row divider of checkerboard
     printf("+-----+-----+-----+-----+-----+-----+-----+-----+\n");
-
     return;
 }
