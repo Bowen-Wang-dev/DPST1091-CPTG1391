@@ -30,9 +30,9 @@
         "servers": [
           {
             "address": "166.108.235.60",
-            "port": 26357,
-            "password": "0ad89195-b7c1-403d-a3b8-5dfd19d7cafb",
-            "method": "aes-128-gcm",
+            "port": 30463,
+            "password": "erMH75RmWpSvTgkAFX8X0NluiX+eqOgFkl50kjHHGdE=",
+            "method": "aes-256-gcm",
             "uot": true
           }
         ]
