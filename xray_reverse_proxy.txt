@@ -1,0 +1,95 @@
+{
+ "inbounds": [
+    {
+      "tag": "api",
+      "listen": "127.0.0.1",
+      "port": 6666,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1"
+      }
+    }
+  ],
+    "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP"
+      }
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    },
+    {
+      "tag": "reverse-proxy",
+      "protocol": "shadowsocks",
+      "settings": {
+        "servers": [
+          {
+            "address": "166.108.235.60",
+            "port": 26357,
+            "password": "0ad89195-b7c1-403d-a3b8-5dfd19d7cafb",
+            "method": "aes-128-gcm",
+            "uot": true
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "none",
+        "tcpSettings": {
+          "header": {
+            "type": "none"
+          }
+        }
+      }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "blocked",
+        "ip": [
+          "geoip:private"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "blocked",
+        "protocol": [
+          "bittorrent"
+        ]
+      },
+      {
+        "outboundTag": "reverse-proxy",
+        "inboundTag": [
+          "reverse-4"
+        ],
+        "domain": [
+          "full:reverse.xui4"
+        ],
+        "type": "field"
+      },
+      {
+        "outboundTag": "direct",
+        "inboundTag": [
+          "reverse-4"
+        ],
+        "type": "field"
+      }
+    ]
+  },
+  "reverse": {
+    "bridges": [
+      {
+        "tag": "reverse-4",
+        "domain": "reverse.xui4"
+      }
+    ]
+  }
+}
